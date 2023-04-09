@@ -1,0 +1,57 @@
+﻿@page
+@using System.Net;
+@using System.Net.NetworkInformation;
+@using System.Net.Sockets;
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment env
+@model IndexModel
+@{
+    ViewData["Title"] = "Welcome & Server Information";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="container">
+    <h3 class="text-center">Server Information</h3>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Machine Name</td>
+                <td>@Environment.MachineName</td>
+            </tr>
+            <tr>
+                <td>OS Version</td>
+                <td>@Environment.OSVersion</td>
+            </tr>
+            <tr>
+                <td>Processor Count</td>
+                <td>@Environment.ProcessorCount</td>
+            </tr>
+            <tr>
+                <td>Execution Directory</td>
+                <td>@env.ContentRootPath</td>
+            </tr>
+            <tr>
+                <td>Network Information</td>
+                <td>@(string.Join(", ", NetworkInterface.GetAllNetworkInterfaces().Select(n => n.Name)))</td>
+            </tr>
+            <tr>
+                <td>Memory Usage (MB)</td>
+                <td>@(GC.GetTotalMemory(true) / (1024 * 1024))</td>
+            </tr>
+            <tr>
+                <td>IP Address Info</td>
+                <td>@(string.Join(", ", Dns.GetHostAddresses(Dns.GetHostName()).Where(ip => ip.AddressFamily == AddressFamily.InterNetwork).Select(ip => ip.ToString())))</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
